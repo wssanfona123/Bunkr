@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="backgroud1">#2d5d7b</color>
+    <color name="backgroud2">#457EAC</color>
+    <color name="alerta">#B30A35</color>
+    <color name="aceito">#19CCAC</color>
 </resources>

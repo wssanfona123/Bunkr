@@ -2,8 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="backgroud1">#2d5d7b</color>
+    <color name="backgroud1">#040876</color>
     <color name="backgroud2">#457EAC</color>
     <color name="alerta">#B30A35</color>
     <color name="aceito">#19CCAC</color>
+    <color name="primary">#6A11CB</color>
+    <color name="primary_variant">#2575FC</color>
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="text_white">#F5F5F5</color>
+    <color name="accent_gold">#FFD700</color>
 </resources>

@@ -1,79 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroud1"
-    android:id="@+id/main"
+    android:background="@drawable/main_gradient_bg"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center">
+    android:padding="24dp">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="325dp"
-        android:layout_height="288dp"
+        android:layout_width="285dp"
+        android:layout_height="237dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginBottom="8dp"
         app:srcCompat="@drawable/image" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BUNKR"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:layout_marginBottom="32dp"
-        android:textColor="@color/white"/>
+        android:letterSpacing="0.3"
+        android:text="BUNKR"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="E-mail"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textColorHint="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_marginHorizontal="20dp"
+        app:boxBackgroundMode="none"
+        app:hintEnabled="false"
+        android:background="@drawable/bg_edittext_gradient"
+        app:startIconDrawable="@drawable/email_1_svgrepo_com"
+        app:startIconTint="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="E-mail"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textColorHint="#80FFFFFF"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Senha Mestra"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
+        app:boxBackgroundMode="none"
+        app:hintEnabled="false"
+        android:background="@drawable/bg_edittext_gradient"
         app:passwordToggleEnabled="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        app:passwordToggleTint="@color/white"
+        app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+        app:startIconTint="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="Senha Mestra"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textColorHint="#80FFFFFF"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_button_gradient"
+        app:backgroundTint="@null"
         android:text="Entrar"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="24dp" />
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:elevation="4dp" />
 
     <ImageButton
         android:id="@+id/btnBiometria"
-        android:layout_width="76dp"
-        android:layout_height="87dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Login por digital"
+        android:scaleType="fitCenter"
         android:src="@drawable/baseline_fingerprint_24"
-        app:tint="@color/black" />
+        app:tint="@color/white" />
 
 </LinearLayout>

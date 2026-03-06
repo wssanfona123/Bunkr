@@ -9,7 +9,18 @@ android {
     namespace = "com.example.bunkr"
     compileSdk = 34
 
-    defaultConfig {
+
+    packaging {
+        resources {
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/LICENSE"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/ASL2.0"
+        }
+    }
+        defaultConfig {
         applicationId = "com.example.bunkr"
         minSdk = 24
         targetSdk = 34
@@ -49,6 +60,19 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Lifecycle & Coroutines (para o lifecycleScope, Dispatchers e withContext)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.google.apis:google-api-services-sheets:v4-rev20220620-2.0.0")
+    implementation("com.google.api-client:google-api-client-android:2.0.0")
+    implementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
     val roomVersion = "2.6.1"
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

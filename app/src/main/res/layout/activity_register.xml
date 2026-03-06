@@ -1,0 +1,91 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Criar Conta Bunkr"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgUserPhoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@android:drawable/ic_menu_camera"
+            android:padding="30dp"
+            android:background="#252525"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toque para mudar a foto"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"/>
+
+        <EditText
+            android:id="@+id/regNome"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Nome Completo"
+            android:textColor="@color/white"
+            android:textColorHint="#888888"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/bg_autofill_suggestion"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/regUser"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="16dp"
+            android:hint="Usuário"
+            android:textColor="@color/white"
+            android:textColorHint="#888888"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/bg_autofill_suggestion"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/regPass"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="16dp"
+            android:hint="Senha Mestra"
+            android:textColor="@color/white"
+            android:textColorHint="#888888"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/bg_autofill_suggestion"
+            android:inputType="textPassword" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFinalizeRegister"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:text="Finalizar Cadastro"
+            android:textStyle="bold"
+            android:backgroundTint="@null"
+            android:background="@drawable/bg_button_gradient"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+</ScrollView>

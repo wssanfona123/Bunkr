@@ -4,26 +4,38 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface BunkrDao {
 
-    // --- Funções de Usuário (Login do App) ---
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    // --- Funções de Usuário (Gestão de Contas) ---
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: User)
 
-    @Query("SELECT * FROM usuarios WHERE username = :username AND password = :password")
-    suspend fun checkLogin(username: String, password: String): User?
-
-    // --- Funções de Itens (Cofre de Senhas) ---
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(item: BunkrItem)
 
-    @Query("SELECT * FROM itens_bunkr")
-    suspend fun getAllItems(): List<BunkrItem>
+    @Query("SELECT * FROM usuarios WHERE username = :username COLLATE NOCASE LIMIT 1")
+    suspend fun getUserByUsername(username: String): User?
 
-    // Esta função resolve o erro "Unresolved reference"
-    // Ela busca pelo final da string (ex: busca "instagram" em "android://hash@instagram/")
-    @Query("SELECT * FROM itens_bunkr WHERE packageName LIKE '%' || :packagePath || '%' LIMIT 1")
-    suspend fun getItemByPackage(packagePath: String): BunkrItem?
+    // --- Funções de Itens (Cofre de Senhas Privado) ---
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertItem(item: BunkrItem)
+
+    // BUSCA PRIVADA: Só retorna os itens que pertencem ao ID do usuário logado
+    @Query("SELECT * FROM itens_bunkr WHERE userId = :currentUserId")
+    fun getItemsByUser(currentUserId: Int): List<BunkrItem>
+
+    // BUSCA POR PACOTE: Agora também filtrada pelo usuário para evitar conflitos entre contas
+    @Query("SELECT * FROM itens_bunkr WHERE packageName = :packageName AND userId = :userId LIMIT 1")
+    suspend fun getItemByPackageAndUser(packageName: String, userId: Int): BunkrItem?
+
+    @Query("DELETE FROM itens_bunkr WHERE id = :itemId AND userId = :currentUserId")
+    suspend fun deleteItem(itemId: Int, currentUserId: Int)
+
+    @Query("SELECT * FROM itens_bunkr WHERE userId = :userId")
+    suspend fun getAllItemsByUserSync(userId: Int): List<BunkrItem>
 }

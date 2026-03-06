@@ -1,6 +1,7 @@
 package com.example.bunkr.services
 
 import android.app.assist.AssistStructure
+import android.content.Context
 import android.os.CancellationSignal
 import android.service.autofill.*
 import android.util.Log
@@ -23,10 +24,8 @@ class BunkrAutofillService : AutofillService() {
         val structure = request.fillContexts.last().structure
         val packageName = structure.activityComponent.packageName
 
-        // Identifica os campos baseando-se apenas na ordem visual (Cima para Baixo)
+        // Identifica os campos de entrada na tela do outro app
         val (usernameId, passwordId) = findAutofillIds(structure)
-
-        Log.d(TAG, "IDs Detectados -> User: $usernameId | Pass: $passwordId")
 
         if (usernameId == null && passwordId == null) {
             callback.onSuccess(null)
@@ -35,8 +34,21 @@ class BunkrAutofillService : AutofillService() {
 
         serviceScope.launch {
             try {
+                // 1. Recuperamos o ID do usuário que está atualmente logado no Bunkr
+                val prefs = getSharedPreferences("sessao_bunkr", Context.MODE_PRIVATE)
+                val idLogado = prefs.getInt("usuario_id", -1)
+
+                // Se não houver ninguém logado, não oferecemos preenchimento por segurança
+                if (idLogado == -1) {
+                    callback.onSuccess(null)
+                    return@launch
+                }
+
                 val db = AppDatabase.getDatabase(this@BunkrAutofillService)
-                val item = db.bunkrDao().getItemByPackage(packageName)
+
+                // 2. BUSCA CORRIGIDA: Filtra por Pacote E por Dono (userId)
+                // Certifique-se de que essa função existe no seu BunkrDao.kt
+                val item = db.bunkrDao().getItemByPackageAndUser(packageName, idLogado)
 
                 if (item != null) {
                     val presentation = RemoteViews(this@BunkrAutofillService.packageName, R.layout.autofill_suggestion)
@@ -44,12 +56,12 @@ class BunkrAutofillService : AutofillService() {
 
                     val datasetBuilder = Dataset.Builder()
 
-                    // O primeiro campo detectado recebe o Usuário
+                    // Preenche o campo de usuário
                     usernameId?.let {
                         datasetBuilder.setValue(it, AutofillValue.forText(item.accountName), presentation)
                     }
 
-                    // O segundo campo detectado recebe a Senha
+                    // Preenche o campo de senha
                     passwordId?.let {
                         datasetBuilder.setValue(it, AutofillValue.forText(item.password), presentation)
                     }
@@ -59,12 +71,12 @@ class BunkrAutofillService : AutofillService() {
                         .build()
 
                     callback.onSuccess(response)
-                    Log.d(TAG, "✅ Preenchimento enviado para $packageName")
+                    Log.d(TAG, "✅ Sugestão enviada para $packageName (User ID: $idLogado)")
                 } else {
                     callback.onSuccess(null)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Erro ao buscar dados: ${e.message}")
+                Log.e(TAG, "Erro no Autofill: ${e.message}")
                 callback.onSuccess(null)
             }
         }
@@ -74,10 +86,10 @@ class BunkrAutofillService : AutofillService() {
         val editableFields = mutableListOf<AutofillId>()
 
         fun traverse(node: AssistStructure.ViewNode) {
-            // Filtro ultra simples: Se é visível e é um campo de texto (ou classe EditText)
             val className = node.className ?: ""
             val isEditText = className.contains("EditText") ||
-                    node.autofillType == View.AUTOFILL_TYPE_TEXT
+                    node.autofillType == View.AUTOFILL_TYPE_TEXT ||
+                    node.hint?.contains("password", ignoreCase = true) == true
 
             if (node.visibility == View.VISIBLE && isEditText) {
                 node.autofillId?.let { editableFields.add(it) }
@@ -92,7 +104,7 @@ class BunkrAutofillService : AutofillService() {
             traverse(structure.getWindowNodeAt(i).rootViewNode)
         }
 
-        // Lógica de posição: 1º campo = User, 2º campo = Pass
+        // Lógica simples: Primeiro campo costuma ser user, segundo costuma ser password
         val user = if (editableFields.size >= 1) editableFields[0] else null
         val pass = if (editableFields.size >= 2) editableFields[1] else null
 
@@ -100,6 +112,7 @@ class BunkrAutofillService : AutofillService() {
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
+        // Opcional: Implementar para o Bunkr perguntar se quer salvar novas senhas detectadas
         callback.onSuccess()
     }
 }

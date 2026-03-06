@@ -100,4 +100,16 @@
         android:src="@drawable/baseline_fingerprint_24"
         app:tint="@color/white" />
 
+    <TextView
+        android:id="@+id/txtCriarConta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Não tem uma conta? Cadastre-se aqui"
+        android:textColor="#BB86FC"
+        android:textSize="14sp"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
 </LinearLayout>
